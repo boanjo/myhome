@@ -22,15 +22,13 @@ You can see the sensor box below and it's pretty simple don't think there is a n
 
 ![3](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_3.jpg?raw=true "Pic 3")
 
-![4](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_4.jpg?raw=true "Pic 4")
+![5](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_5.jpg?raw=true "Pic 5")
 
 If you hook up the sensor to your Homeautomation you should be able to monitor the sensor in action. You can then also take measures if the fill state (on) is longer than expected and raise an alarm and possibly to stop the watering all together.
 
-![5](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_5.jpg?raw=true "Pic 5")
+![6](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_6.jpg?raw=true "Pic 6")
 
 As you can see the "normal" periodicity for me is watering every 3-4 hours and it fills for 1 to 1½ minute.
-
-![6](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_6.jpg?raw=true "Pic 6")
 
 ![7](https://github.com/epkboan/epkboan.github.io/blob/master/christmas_tree_watering_7.jpg?raw=true "Pic 7")
 
