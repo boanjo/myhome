@@ -9,4 +9,4 @@ BOM:
 * https://www.ebay.com/itm/272329095424
 
 
-![1](https://github.com/epkboan/epkboan.github.io/blob/master/hyhome_gateway_serial_1.jpg?raw=true "MySensors Serial Gateway")
+![1](https://github.com/epkboan/epkboan.github.io/blob/master/myhome_gateway_serial_1.jpg?raw=true "MySensors Serial Gateway")
