@@ -7,11 +7,17 @@ I started out using my own built remote unit (a mysensors button node in low pow
 
 ![1](https://github.com/epkboan/epkboan.github.io/blob/master/garage_mysensors.jpg?raw=true "Pic 1")
 
+I use 2 magnetic door/window switches for the door state. It then shows the state in Domoticz (or what ever homeautomation system you have), but i also have a small web iterface (html page with a button to control it and a picture of the garage depending on it's state CLOSED, OPEN, OPENING, STOPPED & CLOSING). I have considered having logic to exactly control the state of the door in the mysensors node but since i still allow the keylock (directly connected to the garage door system) it might still be a bit confusing and lots of corner cases. For me this works
+
 BOM:
 * Arduino Mini pro ~$2
 * RFM69HW ~$2
 * Step up 5v to 12v ~$3
 * Box ~$5
 * Relay module ~$3
+* 2 window/door magnetic switches ~$1
 
-So you should be able to build this for around $15. Then to get this really nice and user friendly i can recommend getting some flic.io buttons. They will cost you at least $20 each but they are sooo worth it. Stick it to the dashboard of your car, next to the door before you leave the house and you can reuse the buttons for other automation tasks too. Works with Low power Bluetooth together with your phone(s) via an app.
+So you should be able to build this for around $15. 
+
+Then to get this really nice and user friendly i recommend getting something like the flic.io buttons. They will cost you at least $20 each but they are sooo worth it. Stick it to the dashboard of your car, next to the door before you leave the house and you can reuse the buttons for other automation tasks too. Works with Low power Bluetooth together with your phone(s) via an app that support all sorts of requests (hue, IFTTT, web req....)
+
