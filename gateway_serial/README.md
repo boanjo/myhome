@@ -10,3 +10,7 @@ BOM:
 
 
 ![1](https://github.com/epkboan/epkboan.github.io/blob/master/myhome_gateway_serial.jpg?raw=true "MySensors Serial Gateway")
+
+The RFM69 chips are suitible to mount to the backside of the arduino mini pro with ~5mm spacing and just have solid legs  
+
+![2](https://github.com/epkboan/epkboan.github.io/blob/master/garage_sensor_stacking_of_radio.jpg?raw=true "Stacking of Radio")
