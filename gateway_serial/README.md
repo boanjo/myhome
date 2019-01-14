@@ -14,3 +14,4 @@ BOM:
 * https://www.ebay.com/itm/RFM69HW-RFM69CW-RFM69W-443Mhz-868Mhz-915Mhz-Wireless-Transceiver-Rfm12b-W/331976853568?hash=item4d4b5cc840:m:mA0YixY-WyExZBEEMyyt4yw:rk:1:pf:0
 * https://www.ebay.com/itm/272329095424
 
+![3](https://github.com/epkboan/epkboan.github.io/blob/master/serial_gw.jpg?raw=true "Serial GW")
