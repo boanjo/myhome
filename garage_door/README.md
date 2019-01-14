@@ -11,12 +11,12 @@ I started out using my own built remote unit (a mysensors button node in low pow
 I use 2 magnetic door/window switches for the door state. It then shows the state in Domoticz (or whatever home automation system you have), but i also have a small web interface (html page with a button to control it and a picture of the garage depending on its state CLOSED, OPEN, OPENING, STOPPED & CLOSING). I have considered having logic to exactly control the state of the door in the mysensors node but since I still allow the keylock (directly connected to the garage door system) it might still be a bit confusing and lots of corner cases. For me this works!
 
 BOM:
-•	Arduino Mini pro ~$2
-•	RFM69HW ~$2
-•	Step up 5v to 12v ~$3
-•	Box ~$5
-•	Relay module ~$3
-•	2 window/door magnetic switches ~$1
+* Arduino Mini pro ~$2
+* RFM69HW ~$2
+* Step up 5v to 12v ~$3
+* Box ~$5
+* Relay module ~$3
+* 2 window/door magnetic switches ~$1
 
 So you should be able to build this for around $15.
 
