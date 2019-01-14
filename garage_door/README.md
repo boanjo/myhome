@@ -3,7 +3,7 @@ Maybe you have an old motorized garage that you would like to control in a more 
 
 Here is a simle solution to pimp your system without having to hack the central control unit for the garage opener (and still be able to use the keypad if you have one of those)
 
-![1](https://github.com/epkboan/epkboan.github.io/blob/master/garage_mysensors.png?raw=true "Pic 1")
+![1](https://github.com/epkboan/epkboan.github.io/blob/master/garage_mysensors.jpg?raw=true "Pic 1")
 
 BOM:
 * Arduino Mini pro ~$2
