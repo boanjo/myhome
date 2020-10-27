@@ -78,7 +78,7 @@
 //#define MY_USE_UDP  // If using UDP you need to set MY_CONTROLLER_IP_ADDRESS or MY_CONTROLLER_URL_ADDRESS below
 
 // Enable MY_IP_ADDRESS here if you want a static ip address (no DHCP)
-#define MY_IP_ADDRESS 192,168,1,100
+#define MY_IP_ADDRESS 192,168,1,17
 
 // If using static ip you can define Gateway and Subnet address as well
 //#define MY_IP_GATEWAY_ADDRESS 192,168,178,1

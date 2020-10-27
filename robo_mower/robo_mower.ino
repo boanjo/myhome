@@ -5,9 +5,9 @@
  * http://www.mysensors.org/build/relay
  */
 
-#define MY_DEBUG
+//#define MY_DEBUG
 #define MY_RADIO_RFM69
-#define MY_IS_RFM69HW
+//#define MY_IS_RFM69HW
 #define MY_RFM69_FREQUENCY RFM69_433MHZ // RFM69_433MHZ for development branch, RF69_433MHZ for master
 #define MY_RFM69_NEW_DRIVER 
 
