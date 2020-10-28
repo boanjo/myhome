@@ -1,4 +1,4 @@
-# Attiny85 as a clock pulse
+# Attiny85 as a clock pulse generator
 How do you get a periodic interrupt that is determenistic and that doesn't loose track of time due to other interrupts? Well you can use an RTC or you can add a dirt cheap Attiny85 to do the job for you. 
 
 You basically only need to add GND, VCC and use some pin during operation but since you of course need to program the chip i usually put this little chip on a small breadboard and a header so it can slot in (or reprogram easily) 
