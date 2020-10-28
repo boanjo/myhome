@@ -9,7 +9,7 @@ Building the sensor. First step is to remove the voltage regulator (If you are u
 ![2](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_1_remove.jpg?raw=true "Pic 2")
 
 Next add the step up (and or down) converter and arduino with some hot glue.
-![3](https://github.com/boanjo/boanjo.github.io/blob/master/atemp_indoor_2_hot_glue.jpg?raw=true "Pic 3")
+![3](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_2_hot_glue.jpg?raw=true "Pic 3")
 
 Prepare the Radio (RFM69CW, the non high power version) wires: https://www.mysensors.org/build/connect_radio
 ![4](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_3_radio.jpg?raw=true "Pic 4")
@@ -18,7 +18,7 @@ Then attach the sensor SI7021 (temp + hum), the resistors and capacitor to measu
 ![5](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_4_sensor.jpg?raw=true "Pic 5")
 
 Here is the final product that you can put pretty much anywhere
-![6](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_samples.jpg?raw=true "Pic 6")
+![6](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_window.jpg?raw=true "Pic 6")
 
 Here is a YouTube video showing the setup and powerconsumption (5-35uA in slep mode and ~40mA during transmission) so it's good for low power battery operations.
 https://youtu.be/DC6JAksRpOY
