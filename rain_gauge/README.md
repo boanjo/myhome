@@ -3,7 +3,7 @@ Here is a way to translate the excellent (wired) tipping bucket rain gauge from 
 
 ![1](https://github.com/boanjo/boanjo.github.io/blob/master/rain_mounted.jpg?raw=true "Pic 1")
 
-You can of course use a simpler tipping bucket like you can find on ebay for a few dollars (or print your own) but i can garantuee You that You are in for a lot of job and it will most likely not be accurate. Or you can buy a Davis or RainWise and mod it in the way you like it. Both brands are excellent but for the rain gauge i have 4 unit and it just does the jobe excellent. If you live in the US you can pick one up for $72 https://rainwise.com/wired-rain-gauge. Here in Sweden it's been probably 50% higher.
+You can of course use a simpler tipping bucket like you can find on ebay for a few dollars (or print your own) but i can garantuee that You are in for a lot of job and it will most likely not be accurate. Or you can buy a Davis or RainWise and mod it in the way you like it. Both brands are excellent but for the rain gauge i have 4 units (relatives wants precise data too:-)) and it just does the job excellent. If you live in the US you can pick one up for $72 https://rainwise.com/wired-rain-gauge. Here in Sweden it's been probably 50% higher.
 
 Fusion 360 - 3D printed parts (optional)
 -  Either you place the rain sensor in a open location (no trees or object to stop the rain...) on a flat surface that needs to be in level for the best accuracy or you can print the pole mounting model 
@@ -19,7 +19,9 @@ Building the sensor (These are the same steps as the temp_indoor sensor). First 
 Next add the step up (and or down) converter and arduino with some hot glue.
 ![5](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_2_hot_glue.jpg?raw=true "Pic 5")
 
-Prepare the Radio (RFM69HW, the HIGH power version) wires: https://www.mysensors.org/build/connect_radio, solder the resistors and capacitor to measure the battery https://www.mysensors.org/build/battery and then also the home-made antenna http://www.byvac.com/downloads/RLnn/How-to-make-a-Air-Cooled-433MHz-antenna.pdf
+Prepare the Radio (RFM69HW, the HIGH power version) wires: https://www.mysensors.org/build/connect_radio, solder the resistors and capacitor to measure the battery https://www.mysensors.org/build/battery and then also the home-made antenna http://www.byvac.com/downloads/RLnn/How-to-make-a-Air-Cooled-433MHz-antenna.pdf.
+
+Oh and you need a pull-up resistor as well for the reed switch (i'm using 4k7ohm)
 ![6](https://github.com/boanjo/boanjo.github.io/blob/master/rain_radio.jpg?raw=true "Pic 6")
 
 Put the sensor in the casing (which will make it easier to pick up again and protect the antenna). Then screw the reed switch connectors in place
