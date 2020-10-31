@@ -4,6 +4,8 @@ Here is my favorite solution for indoor temperature (or other sensors too) senso
 The casing is done in Fusion 360 and printed in PLA and is very easy to postprocess to your demands. Key here is the cylindric shape which makes sanding easy. When you finish with wet sanding 1200 paper then it will be very smooth. Here are some samples of some sanded or spray painted sensors. 
 ![1](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_samples.jpg?raw=true "Pic 1")
 
+You can download the stl files from https://www.thingiverse.com/thing:4639524
+
 Building the sensor. First step is to remove the voltage regulator (If you are using battery powering or the sensor will die in a few days) also remove the power LED. It's quite easy to do with a sharp set of pliers. Or you can solder it off: https://www.mysensors.org/build/battery
 
 ![2](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_1_remove.jpg?raw=true "Pic 2")
