@@ -21,6 +21,6 @@ Here is the final product that you can put pretty much anywhere
 ![6](https://github.com/boanjo/boanjo.github.io/blob/master/temp_indoor_window.jpg?raw=true "Pic 6")
 
 Here is a YouTube video showing the setup and powerconsumption (5-35uA in slep mode and ~40mA during transmission) so it's good for low power battery operations.
-https://www.youtube.com/watch?v=agAlQUZVO6w
+https://youtu.be/Gip92CT4NIg
 
 Enjoy!
