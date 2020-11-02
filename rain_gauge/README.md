@@ -34,6 +34,6 @@ Put the sensor in the casing (which will make it easier to pick up again and pro
 
 
 Here is a YouTube video showing the setup.
-https://www.youtube.com/watch?v=agAlQUZVO6w
+https://youtu.be/QY3R7Q7T6TU
 
 Enjoy!
