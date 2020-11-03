@@ -70,8 +70,8 @@
 //#define MY_MQTT_PASSWORD "password"
 
 // Set WIFI SSID and password
-#define MY_WIFI_SSID "BOAN"
-#define MY_WIFI_PASSWORD "youmustletmein"
+#define MY_WIFI_SSID "SomeSSID"
+#define MY_WIFI_PASSWORD "password"
 
 // Set the hostname for the WiFi Client. This is the hostname
 // passed to the DHCP server if not static.
@@ -88,7 +88,7 @@
 //#define MY_CONTROLLER_IP_ADDRESS 192, 168, 178, 68
 
 //MQTT broker if using URL instead of ip address.
-#define MY_CONTROLLER_URL_ADDRESS "boan.dyndns.org"
+//#define MY_CONTROLLER_URL_ADDRESS "someurl.org"
 
 // The MQTT broker port to to open
 #define MY_PORT 1883
