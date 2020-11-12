@@ -48,64 +48,85 @@
 #include <DS18B20.h>
 //#define MY_DEBUG_VERBOSE_TRANSPORT_HAL
 // Enable debug prints to serial monitor
-#define MY_DEBUG
+//#define MY_DEBUG
 //#define MY_DEBUG_VERBOSE_RFM69_REGISTERS
 //#define MY_DEBUG_VERBOSE_RFM69
 //#define MY_SIGNAL_REPORT_ENABLED
 
-void(* resetFunc) (void) = 0;
+void (*resetFunc)(void) = 0;
 
-#define EE_RESET_COUNT_ADDRESS  200   // Select address in EEPROM memory space
-#define EE_RAIN_COUNT_ADDRESS   204   // Select address in EEPROM memory space
+#define EE_RESET_COUNT_ADDRESS 200 // Select address in EEPROM memory space
+#define EE_RAIN_COUNT_ADDRESS 204  // Select address in EEPROM memory space
 
 #define MY_RADIO_RFM69
 #define MY_RFM69_NEW_DRIVER
 #define MY_IS_RFM69HW
 #define MY_RFM69_FREQUENCY (RFM69_433MHZ)
-#define MY_RFM69_ATC_TARGET_RSSI_DBM (-70)  // target RSSI -70dBm
-#define MY_RFM69_MAX_POWER_LEVEL_DBM (20)   // max. TX power 10dBm = 10mW
+#define MY_RFM69_ATC_TARGET_RSSI_DBM (-70) // target RSSI -70dBm
+#define MY_RFM69_MAX_POWER_LEVEL_DBM (20)  // max. TX power 10dBm = 10mW
 #define MY_RFM69_NETWORKID (135)
-#define MY_NODE_ID 37
+#define MY_NODE_ID 22
 
 // Enable repeater functionality for this node
 //#define MY_REPEATER_FEATURE
 
-#define CHILD_ID_WIND         0
-#define CHILD_ID_RAIN         1
-#define CHILD_ID_TEMP         2
+#define CHILD_ID_WIND 0
+#define CHILD_ID_RAIN 1
+#define CHILD_ID_TEMP 2
 
-#define CHILD_ID_SEND_RSSI    10
-#define CHILD_ID_REC_RSSI     11
-#define CHILD_ID_TX_POWER     12
-#define CHILD_ID_RESET_COUNT  13
-#define CHILD_ID_FAN_CONTROL  14
+#define CHILD_ID_SEND_RSSI 10
+#define CHILD_ID_REC_RSSI 11
+#define CHILD_ID_TX_POWER 12
+#define CHILD_ID_RESET_COUNT 13
+#define CHILD_ID_FAN_CONTROL 14
 #define CHILD_ID_REQ_COUNTERS 15
-#define CHILD_ID_REQ_RESET    16
+#define CHILD_ID_REQ_RESET 16
 
-#define SEND(X)     digitalWrite(LED_STATUS_PIN, HIGH); \
-  send(X); \
+#define SEND(X)                       \
+  digitalWrite(LED_STATUS_PIN, HIGH); \
+  send(X);                            \
   digitalWrite(LED_STATUS_PIN, LOW);
 
+/*
+ 
+  OneWire (Temp sensor)
+  Pull up resistor
+  An indicative table for pull up resistors, (E12 series), to get started.
 
+  Note: thicker wires require smaller resistors (typically 1 step in E12 series)
+  Length        5.0 Volt  3.3 Volt
+  10cm (4")     10K0      6K8
+  20cm (8")     8K2       4K7
+  50cm (20")    4K7       3K3
+  100cm (3'4")  3K3       2K2
+  200cm (6'8")  2K2       1K0
+  500cm (16'8") 1K0       *
+  longer        *         *
 
-#define FAN_CONTROL_PIN        3 // Via 2.2kohm series to anode of TIP120 
-#define WIND_SPEED_PIN         4
-#define RAIN_SENSOR_PIN        5
-#define ONE_WIRE_BUS           6
-#define LED_STATUS_PIN         7
+  D3 Fan control of Stevenson cage 2.2k in series to TIP120 anode
+  D4 Wind speed is conected to 4.7k pull up resistor
+  D5 Rain sensor is conected to 4.7k pull up resistor
+  D6 is connected to 1-wire with 2.2k pull up resistor
+  D7 is connected to LED button 470ohm resistor in series
+*/
+#define FAN_CONTROL_PIN 3
+#define WIND_SPEED_PIN 4
+#define RAIN_SENSOR_PIN 5
+#define ONE_WIRE_BUS 6
+#define LED_STATUS_PIN 7
 
-#define WIND_DIRECTION_PIN     A2
+#define WIND_DIRECTION_PIN A2
 
-uint32_t  MIN_TX_DELAY = 5 * 1000UL; // sleep time between reads (seconds * 1000 milliseconds)
-uint32_t  MIN_TX_DELAY_INFREQUENT = 1 * 60 * 1000UL; // sleep time between reads (seconds * 1000 milliseconds)
+uint32_t MIN_TX_DELAY = 5 * 1000UL;                 // sleep time between reads (seconds * 1000 milliseconds)
+uint32_t MIN_TX_DELAY_INFREQUENT = 15 * 60 * 1000UL; // sleep time between reads (min * seconds * 1000 milliseconds)
 
 // Setup a oneWire instance to communicate with any OneWire devices
 // (not just Maxim/Dallas temperature ICs)
 OneWire oneWire(ONE_WIRE_BUS);
-DS18B20  sensor(&oneWire);
+DS18B20 sensor(&oneWire);
 
 // RAIN
-#define RAIN_SLIDING_AVG_LEN       11
+#define RAIN_SLIDING_AVG_LEN 11
 #define RAIN_SLIDING_AVG_THRESHOLD 5
 int rainState = HIGH;
 int lastRainStateArr[RAIN_SLIDING_AVG_LEN] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
@@ -116,7 +137,7 @@ unsigned long reportedRain = -1;
 unsigned long lastRainReportTime = 0;
 
 // WIND
-#define WIND_SLIDING_AVG_LEN       5
+#define WIND_SLIDING_AVG_LEN 5
 #define WIND_SLIDING_AVG_THRESHOLD 3
 int windState = HIGH;
 int lastWindStateArr[WIND_SLIDING_AVG_LEN] = {HIGH, HIGH, HIGH, HIGH, HIGH};
@@ -141,12 +162,11 @@ bool forcedFetch = false;
 unsigned long resetCount = 0;
 unsigned long reportedResetCount = -1;
 
-
 unsigned long lastReportTime = 0L;
+unsigned long lastPeriodicCheckTime = 0L;
 unsigned long lastInfrequentCheckTime = 0L;
 
 #include <MySensors.h>
-
 
 unsigned long lap = 0;
 
@@ -163,20 +183,23 @@ MyMessage msgSendRssi(CHILD_ID_SEND_RSSI, V_LEVEL);
 MyMessage msgRecRssi(CHILD_ID_REC_RSSI, V_LEVEL);
 MyMessage msgTxPower(CHILD_ID_TX_POWER, V_LEVEL);
 
+void background_task();
+void periodic_report_check();
+void infrequent_periodic_report_check();
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////////////
 void setup()
 {
 
-
 #ifdef FIRST_TIME
   eeprom_write_dword((uint32_t *)EE_RESET_COUNT_ADDRESS, (uint32_t)0);
   eeprom_write_dword((uint32_t *)EE_RAIN_COUNT_ADDRESS, (uint32_t)0);
 #endif
 
-  rainTipCount = (unsigned long) eeprom_read_dword((const uint32_t *)EE_RAIN_COUNT_ADDRESS);
-  resetCount = (unsigned long) eeprom_read_dword((const uint32_t *)EE_RESET_COUNT_ADDRESS);
+  rainTipCount = (unsigned long)eeprom_read_dword((const uint32_t *)EE_RAIN_COUNT_ADDRESS);
+  resetCount = (unsigned long)eeprom_read_dword((const uint32_t *)EE_RESET_COUNT_ADDRESS);
   resetCount++;
   eeprom_write_dword((uint32_t *)EE_RESET_COUNT_ADDRESS, (uint32_t)(resetCount));
 
@@ -191,10 +214,10 @@ void setup()
   sensor.begin();
 
   // TIMER 1 for interrupt frequency 2000 Hz:
-  cli(); // stop interrupts
+  cli();      // stop interrupts
   TCCR1A = 0; // set entire TCCR1A register to 0
   TCCR1B = 0; // same for TCCR1B
-  TCNT1  = 0; // initialize counter value to 0
+  TCNT1 = 0;  // initialize counter value to 0
   // set compare match register for 2000 Hz increments
   OCR1A = 3999; // = 8000000 / (1 * 2000) - 1 (must be <65536)
   // turn on CTC mode
@@ -204,7 +227,6 @@ void setup()
   // enable timer compare interrupt
   TIMSK1 |= (1 << OCIE1A);
   sei(); // allow interrupts
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -230,43 +252,55 @@ void setup()
 //                        t1=20ms/6=3.33ms    t2=10/6*5=16.67ms
 //
 ////////////////////////////////////////////////////////////////////////////////////////
-ISR(TIMER1_COMPA_vect)          // timer compare interrupt service routine
+ISR(TIMER1_COMPA_vect) // timer compare interrupt service routine
 {
   lastRainStateArr[lastRainIndex] = digitalRead(RAIN_SENSOR_PIN);
   lastRainIndex++;
-  if (lastRainIndex >= RAIN_SLIDING_AVG_LEN) lastRainIndex = 0;
+  if (lastRainIndex >= RAIN_SLIDING_AVG_LEN)
+    lastRainIndex = 0;
   int tot = 0;
   int i = 0;
-  for (i = 0; i < RAIN_SLIDING_AVG_LEN; i++) {
+  for (i = 0; i < RAIN_SLIDING_AVG_LEN; i++)
+  {
     tot = tot + lastRainStateArr[i];
   }
-  if (tot < RAIN_SLIDING_AVG_THRESHOLD) {
-    if (rainState == HIGH) {
+  if (tot < RAIN_SLIDING_AVG_THRESHOLD)
+  {
+    if (rainState == HIGH)
+    {
       rainTipCount++;
       rainState = LOW;
     }
   }
-  else if (tot > RAIN_SLIDING_AVG_THRESHOLD) {
-    if (rainState == LOW) {
+  else if (tot > RAIN_SLIDING_AVG_THRESHOLD)
+  {
+    if (rainState == LOW)
+    {
       rainState = HIGH;
     }
   }
 
   lastWindStateArr[lastWindIndex] = digitalRead(WIND_SPEED_PIN);
   lastWindIndex++;
-  if (lastWindIndex >= WIND_SLIDING_AVG_LEN) lastWindIndex = 0;
+  if (lastWindIndex >= WIND_SLIDING_AVG_LEN)
+    lastWindIndex = 0;
   tot = 0;
-  for (i = 0; i < WIND_SLIDING_AVG_LEN; i++) {
+  for (i = 0; i < WIND_SLIDING_AVG_LEN; i++)
+  {
     tot = tot + lastWindStateArr[i];
   }
-  if (tot < WIND_SLIDING_AVG_THRESHOLD) {
-    if (windState == HIGH) {
+  if (tot < WIND_SLIDING_AVG_THRESHOLD)
+  {
+    if (windState == HIGH)
+    {
       windSpeedCount++;
       windState = LOW;
     }
   }
-  else if (tot > WIND_SLIDING_AVG_THRESHOLD) {
-    if (windState == LOW) {
+  else if (tot > WIND_SLIDING_AVG_THRESHOLD)
+  {
+    if (windState == LOW)
+    {
       windState = HIGH;
     }
   }
@@ -292,7 +326,6 @@ void presentation()
   present(CHILD_ID_REC_RSSI, S_SOUND);
   present(CHILD_ID_TX_POWER, S_SOUND);
   present(CHILD_ID_RESET_COUNT, S_POWER);
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -301,56 +334,75 @@ void presentation()
 // However normal map doesn't work since index 0 (north) is in range
 // 0 +-32 (+-11.25 degrees)
 ////////////////////////////////////////////////////////////////////////////////////////
-int map_direction(int deg) {
+int map_direction(int deg)
+{
   int val = deg / 64;
   int reminder = deg - (val * 64);
-  if (reminder >= 32) {
+  if (reminder >= 32)
+  {
     val++;
   }
 
-  if (val >= 16) val = 0;
+  if (val >= 16)
+    val = 0;
 
   return val;
 }
 
-void loop() {
+void loop()
+{
 
-  while (millis() - lastReportTime < MIN_TX_DELAY) {
-    continues_task_radio_is_sleeping();
+  unsigned long curr_millis = millis();
+  background_task();
+
+  if ((curr_millis - lastPeriodicCheckTime > MIN_TX_DELAY) || forcedFetch)
+  {
+    periodic_report_check();
+    lastPeriodicCheckTime = curr_millis;
   }
-
-
-  periodic_report_check();
-
 
   // Check voltage, RSSI less frequent
-  if (millis() - lastInfrequentCheckTime > MIN_TX_DELAY_INFREQUENT) {
+  if ((curr_millis - lastInfrequentCheckTime > MIN_TX_DELAY_INFREQUENT) || forcedFetch)
+  {
     infrequent_periodic_report_check();
-    lastInfrequentCheckTime = millis();
+    lastInfrequentCheckTime = curr_millis;
   }
+
+  forcedFetch = false;
 }
 
-void continues_task_radio_is_sleeping() {
+////////////////////////////////////////////////////////////////////////////////////////
+// Here we are when when we have nothing else to do
+////////////////////////////////////////////////////////////////////////////////////////
+void background_task()
+{
   bool sensorReady = sensor.begin();
-  if (sensorReady != prevSensorState) {
-    if (sensorReady) {
+  if (sensorReady != prevSensorState)
+  {
+    if (sensorReady)
+    {
       sensor.setResolution(12);
-      sensor.setConfig(DS18B20_CRC);  // or 1
+      sensor.setConfig(DS18B20_CRC); // or 1
       sensor.requestTemperatures();
-    } else {
+    }
+    else
+    {
       // Sensor lost
       temp = UNDEFINED_TEMP;
       prevTemp = UNDEFINED_TEMP;
     }
     prevSensorState = sensorReady;
-
-  } else if (sensorReady) {
-    if (sensor.isConversionComplete()) {
+  }
+  else if (sensorReady)
+  {
+    if (sensor.isConversionComplete())
+    {
 
       float val = sensor.getTempC();
 
       // We only update the temp if two consecutive readings are within 1.0 degrees
-      if (fabs(val - prevTemp) <= 1.0) {
+      if (fabs(val - prevTemp) <= 1.0)
+      {
         temp = val;
       }
 
@@ -364,25 +416,26 @@ void continues_task_radio_is_sleeping() {
 ////////////////////////////////////////////////////////////////////////////////////////
 // periodic_report_check runs every MIN_TX_DELAY
 ////////////////////////////////////////////////////////////////////////////////////////
-void periodic_report_check() {
+void periodic_report_check()
+{
 
   unsigned long curr_millis = millis();
-
 
   //*********************************
   // Rain
   //*********************************
-  if ((rainTipCount != reportedRain) || forcedFetch) {
+  if ((rainTipCount != reportedRain) || forcedFetch)
+  {
     reportedRain = rainTipCount;
     eeprom_write_dword((uint32_t *)EE_RAIN_COUNT_ADDRESS, (uint32_t)rainTipCount);
 
     float rainMetric = 0.254 * reportedRain;
 
     // We reset the radio only here after we have stored the Rain gauge tips in the eeprom
-    if (!isTransportReady()) {
-       resetFunc();
+    if (!isTransportReady())
+    {
+      resetFunc();
     }
-
 
     SEND(msgRain.set(rainMetric, 1));
     lastRainReportTime = curr_millis;
@@ -394,10 +447,10 @@ void periodic_report_check() {
 
   // Clear values before sending as transmission might take time and miss a few samples
   // Do this atomically by temp disabling interrupts
-  noInterrupts ();
+  noInterrupts();
   unsigned long tmpSpeedCount = windSpeedCount;
   windSpeedCount = 0;
-  interrupts ();
+  interrupts();
 
   // 1600 rotations = 1mph i.e. V=P(2.25/T)
   // mph to m/s is 1:2.237 i.e. V=P/T for m/s
@@ -406,10 +459,10 @@ void periodic_report_check() {
   float mps = (tmpSpeedCount * 1000.0);
   mps = mps / (float)(curr_millis - lastReportTime);
 
-
   lastReportTime = curr_millis;
 
-  if ((fabs(mps - reportedWind) >= 0.5) || (forcedFetch)) {
+  if ((fabs(mps - reportedWind) >= 0.5) || forcedFetch)
+  {
     SEND(msgWSpeed.set(mps, 1));
     reportedWind = mps;
   }
@@ -417,39 +470,44 @@ void periodic_report_check() {
   int dirValue = analogRead(WIND_DIRECTION_PIN);
 
   int dirIndex = map_direction(dirValue);
-  if (reportedDirectionIndex != dirIndex) {
+  if ((reportedDirectionIndex != dirIndex) || forcedFetch)
+  {
     SEND(msgWDirection.set(22.5 * dirIndex, 1));
     reportedDirectionIndex = dirIndex;
   }
 
-
-
   //*********************************
   // Temperature
   //*********************************
-  if (temp != UNDEFINED_TEMP) {
-    if ((fabs(temp - reportedTemp) >= 0.1) || forcedFetch) {
+  if (temp != UNDEFINED_TEMP)
+  {
+    if ((fabs(temp - reportedTemp) >= 0.1) || forcedFetch)
+    {
       SEND(msgTemp.set(temp, 1));
       reportedTemp = temp;
     }
   }
 
-  if ((resetCount != reportedResetCount) || forcedFetch) {
+  if ((resetCount != reportedResetCount) || forcedFetch)
+  {
     reportedResetCount = resetCount;
-    SEND(msgResetCount.set(resetCount));
+    SEND(msgResetCount.set(resetCount, 1));
   }
 
   lap++;
 
-
-  if ((fanLevel == 100) || (fanCount < fanLevel)) {
+  if ((fanLevel == 100) || (fanCount < fanLevel))
+  {
     digitalWrite(FAN_CONTROL_PIN, HIGH);
-  } else {
+  }
+  else
+  {
     digitalWrite(FAN_CONTROL_PIN, LOW);
   }
   fanCount++;
 
-  if (fanCount > 100) fanCount = 0;
+  if (fanCount > 100)
+    fanCount = 0;
 
 #ifdef MY_DEBUG
 
@@ -480,17 +538,15 @@ void periodic_report_check() {
   Serial.print(resetCount);
   Serial.println("");
 
-
 #endif
 
-  forcedFetch = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // infrequent_periodic_report_check runs every MIN_TX_DELAY
 ////////////////////////////////////////////////////////////////////////////////////////
-void infrequent_periodic_report_check() {
-
+void infrequent_periodic_report_check()
+{
 
   int16_t txRssi = RFM69_getSendingRSSI();
   SEND(msgSendRssi.set(txRssi));
@@ -509,48 +565,50 @@ void infrequent_periodic_report_check() {
   Serial.print("TxPowerLevel:");
   Serial.print(txPowerLevel);
   Serial.println("");
-  
-#endif
 
+#endif
 }
 
 void receive(const MyMessage &message)
 {
   Serial.println("******************* message.getType()");
-  Serial.println( message.getType());
-  Serial.println( message.sensor);
-   Serial.println("*******************");
-  if ((message.getType() == V_STATUS)  && (message.sensor == CHILD_ID_REQ_COUNTERS)) {
+  Serial.println(message.getType());
+  Serial.println(message.sensor);
+  Serial.println("*******************");
+  if ((message.getType() == V_STATUS) && (message.sensor == CHILD_ID_REQ_COUNTERS))
+  {
     forcedFetch = true;
     Serial.println("Forced Fetch of counters");
   }
-  else if ((message.getType() == V_STATUS)  && (message.sensor == CHILD_ID_REQ_RESET)) {
+  else if ((message.getType() == V_STATUS) && (message.sensor == CHILD_ID_REQ_RESET))
+  {
     Serial.println("Forced Reset");
     resetFunc();
   }
-  else if ((message.getType() == V_STATUS)  && (message.sensor == CHILD_ID_FAN_CONTROL)) {
-    int requestedLevel = atoi( message.data ) *100;
-    Serial.print( "Changing Fan level to " );
-    Serial.print( requestedLevel );
+  else if ((message.getType() == V_STATUS) && (message.sensor == CHILD_ID_FAN_CONTROL))
+  {
+    int requestedLevel = atoi(message.data) * 100;
+    Serial.print("Changing Fan level to ");
+    Serial.print(requestedLevel);
 
     fanLevel = requestedLevel;
   }
-  else if ((message.getType() == V_DIMMER)  && (message.sensor == CHILD_ID_FAN_CONTROL)) {
+  else if ((message.getType() == V_DIMMER) && (message.sensor == CHILD_ID_FAN_CONTROL))
+  {
 
     //  Retrieve the power or dim level from the incoming request message
-    int requestedLevel = atoi( message.data );
-
+    int requestedLevel = atoi(message.data);
 
     requestedLevel = requestedLevel > 100 ? 100 : requestedLevel;
-    requestedLevel = requestedLevel < 0   ? 0   : requestedLevel;
+    requestedLevel = requestedLevel < 0 ? 0 : requestedLevel;
 
-    Serial.print( "Changing Fan level to " );
-    Serial.print( requestedLevel );
+    Serial.print("Changing Fan level to ");
+    Serial.print(requestedLevel);
 
     fanLevel = requestedLevel;
-
   }
-  else {
+  else
+  {
     Serial.print("Unknown type: ");
     Serial.println(message.getType());
   }

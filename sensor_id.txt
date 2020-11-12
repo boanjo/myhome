@@ -1,17 +1,22 @@
 
 MY_RFM69_NETWORKID (135) (Domoticz MQTT)
 
-Name 					Location		Node Id	
-anemometer				Oxelgatatan 7	20														
-rain_sensor				Oxelgatatan 7	21														
-weatherstation_dc 		Huardöd			37			
-temp inne				Huaröd			38			
-temp inne				Oxelgatatan 7	39														
+Name 					Location		Node Id
+anemometer				Oxelgatatan 7	20
+rain_sensor				Oxelgatatan 7	21
+temp inne				Oxelgatatan 7	39
+weatherstation_dc		Oxelgatatan 7	22
+
+MY_RFM69_NETWORKID (45) (Domoticz MQTT)
+
+Name 					Location		Node Id
+weatherstation_dc 		Huardöd			37
+temp inne				Huaröd			39
 
 
 MY_RFM69_NETWORKID (170)  (Domoticz on RPI homeautomation)
 
-Name 					Location		Node Id	
-christmas_tree			Oxelgatatan 7	42														
-micro_drip  			Oxelgatatan 7	46														
+Name 					Location		Node Id
+christmas_tree			Oxelgatatan 7	42
+micro_drip  			Oxelgatatan 7	46
 robo_mower				Oxelgatatan 7	61
