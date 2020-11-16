@@ -50,48 +50,22 @@
 // Use a bit lower baudrate for serial prints on ESP8266 than default in MyConfig.h
 #define MY_BAUD_RATE 9600
 
-// Enables and select radio type (if attached)
-//#define MY_RADIO_RF24
+#define MY_RFM69_NETWORKID (45)
+
 #define MY_RADIO_RFM69
-//#define MY_RADIO_RFM95
+#define MY_IS_RFM69HW
+#define MY_RFM69_FREQUENCY RFM69_433MHZ // RFM69_433MHZ for development branch, RF69_433MHZ for master
+#define MY_RFM69_NEW_DRIVER
+
+#define MY_REPEATER_FEATURE
+
 
 #define MY_GATEWAY_MQTT_CLIENT
 #define MY_GATEWAY_ESP8266
 
-// Set this node's subscribe and publish topic prefix
-#define MY_MQTT_PUBLISH_TOPIC_PREFIX "mygateway1-out"
-#define MY_MQTT_SUBSCRIBE_TOPIC_PREFIX "mygateway1-in"
+#include "my_defines.h"
 
-// Set MQTT client id
-#define MY_MQTT_CLIENT_ID "mysensors-1"
 
-// Enable these if your MQTT broker requires username/password
-//#define MY_MQTT_USER "username"
-//#define MY_MQTT_PASSWORD "password"
-
-// Set WIFI SSID and password
-#define MY_WIFI_SSID "SomeSSID"
-#define MY_WIFI_PASSWORD "password"
-
-// Set the hostname for the WiFi Client. This is the hostname
-// passed to the DHCP server if not static.
-#define MY_HOSTNAME "MYS_433_Wemos"
-
-// Enable MY_IP_ADDRESS here if you want a static ip address (no DHCP)
-//#define MY_IP_ADDRESS 192,168,178,87
-
-// If using static ip you can define Gateway and Subnet address as well
-//#define MY_IP_GATEWAY_ADDRESS 192,168,178,1
-//#define MY_IP_SUBNET_ADDRESS 255,255,255,0
-
-// MQTT broker ip address.
-//#define MY_CONTROLLER_IP_ADDRESS 192, 168, 178, 68
-
-//MQTT broker if using URL instead of ip address.
-//#define MY_CONTROLLER_URL_ADDRESS "someurl.org"
-
-// The MQTT broker port to to open
-#define MY_PORT 1883
 
 // Enable inclusion mode
 //#define MY_INCLUSION_MODE_FEATURE
@@ -110,11 +84,12 @@
 //#define MY_DEFAULT_RX_LED_PIN  16  // Receive led pin
 //#define MY_DEFAULT_TX_LED_PIN  16  // the PCB, on board LED
 
+#define   MY_SIGNAL_REPORT_ENABLED
+
 #include <MySensors.h>
 
 void setup()
 {
-    Serial.println("Started");
     // Setup locally attached sensors
 }
 
