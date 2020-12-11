@@ -6,12 +6,14 @@ anemometer				Oxelgatatan 7	20
 rain_sensor				Oxelgatatan 7	21
 temp inne				Oxelgatatan 7	39
 weatherstation_dc		Oxelgatatan 7	22
+temp_inne_dc     		Oxelgatatan 7 	41
 
 MY_RFM69_NETWORKID (45) (Domoticz MQTT)
 
 Name 					Location		Node Id
-weatherstation_dc 		Huardöd			37
+weatherstation_dc 		Huardöd			22
 temp inne				Huaröd			39
+temp inne dc			Huaröd			41
 
 
 MY_RFM69_NETWORKID (170)  (Domoticz on RPI homeautomation)

@@ -63,7 +63,8 @@ int oldBatteryPcnt = 0;
 float reportedBatteryVoltage = -3.0;
 
 volatile unsigned long rainTipCount = 0;
-unsigned long reportedRain = -1;
+#define UNDEF -1
+unsigned long reportedRain = UNDEF;
 
 // Sleep time between sensor updates (in milliseconds)
 static const uint64_t UPDATE_INTERVAL = 60000 * 240; // 240min or 4h max between reports
@@ -122,12 +123,21 @@ void setup()
 
 void reportRain()
 {
+  // First we report the previous reported rain amount. Otherwise the diff within a day will miss the first 
+  // tip that day. I.e. since we only report at a change and it might takes days before some rain, then the
+  // first tip will send in a value like 23.4. But both min and max will say tha same if there is only one 
+  // tip that day, diff=0.0. Hence we first send the previous value and then the new value
+  if(reportedRain != UNDEF) {
+    float rainMetric = 0.254 * reportedRain;
+    send(msgRain.set(rainMetric, 1));
+  }
+
   reportedRain = rainTipCount;
   eeprom_write_dword((uint32_t *)EE_RAIN_COUNT_ADDRESS, (uint32_t)rainTipCount);
 
   float rainMetric = 0.254 * reportedRain;
-
   send(msgRain.set(rainMetric, 1));
+
 #ifdef MY_DEBUG
   Serial.print(F("tip "));
   Serial.print(reportedRain);
