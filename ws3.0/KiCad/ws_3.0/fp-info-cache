@@ -1,4 +1,4 @@
-24753019683231320
+24758249507792592
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -99533,6 +99533,13 @@ Connector
 1
 1
 boan_devices
+BAP70
+1N5819HW-7-F
+Diode
+0
+2
+2
+boan_devices
 CR2032 standing 1074
 1074-2
 Undefined or Miscellaneous
@@ -99561,12 +99568,26 @@ LoRa Low Power Long Range Transceiver Module
 16
 16
 boan_devices
+Jumper 2p
+Through hole straight pin header, 1x06, 2.54mm pitch, single row
+Through hole pin header THT 1x06 2.54mm single row
+0
+2
+2
+boan_devices
 RJ10 Horizontal
 Evercom 5301-4P4C RJ9 receptacle, unshielded, https://datasheet.lcsc.com/lcsc/2207051802_EVERCOM-5301-4P4C_C3097715.pdf
 RJ9 Connector tab down
 0
 4
 4
+boan_devices
+SOT-23
+3-pin TSOT23 package, http://www.analog.com.tw/pdf/All_In_One.pdf
+TSOT-23
+0
+3
+3
 boan_devices
 tactile smd 13019319
 LSH GULLWING
