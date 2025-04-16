@@ -47,6 +47,7 @@
 #include <Wire.h>
 #include <OneWire.h>
 #include <DS18B20.h>
+
 #define MY_DEBUG_VERBOSE_TRANSPORT_HAL
 // Enable debug prints to serial monitor
 #define MY_DEBUG
@@ -62,13 +63,9 @@ void (*resetFunc)(void) = 0;
 
 
 #define MY_RADIO_RFM95
-//#define MY_RFM95_FREQUENCY (RFM95_868MHZ)
-#define RFM95_RETRY_TIMEOUT_MS  (300)
-#define MY_RFM95_FREQUENCY      (868.0)  // or 915.0 depending on your hardware/region
-#define RFM95_PWR_LEVEL_DBM 13  // or whatever level you want
-
-//#define MY_RFM95_ATC_TARGET_RSSI_DBM (-70) // target RSSI -70dBm
-//#define MY_RFM95_MAX_POWER_LEVEL_DBM (20)  // max. TX power 10dBm = 10mW  20dBm = 100mW
+#define MY_RFM95_FIXED_FREQUENCY_868MHZ
+#define MY_RFM95_ATC_TARGET_RSSI_DBM (-70) // target RSSI -70dBm
+#define MY_RFM95_MAX_POWER_LEVEL_DBM (20)  // max. TX power 10dBm = 10mW  20dBm = 100mW
 
 #define MY_RFM95_NETWORKID (100)
 #define MY_NODE_ID 50
@@ -80,6 +77,8 @@ void (*resetFunc)(void) = 0;
 #define CHILD_ID_RAIN 1
 #define CHILD_ID_TEMP 2
 
+#define CHILD_ID_RAW_VOLTAGE 8
+#define CHILD_ID_BATTERY_VOLTAGE 9
 #define CHILD_ID_SEND_RSSI 10
 #define CHILD_ID_REC_RSSI 11
 #define CHILD_ID_TX_POWER 12
@@ -116,6 +115,8 @@ void (*resetFunc)(void) = 0;
 #define ONE_WIRE_BUS 6
 #define LED_STATUS_PIN A0
 #define WIND_DIRECTION_PIN A2
+#define RAW_VOLTAGE_PIN A6
+#define BATTERY_VOLTAGE_PIN A7
 
 uint32_t MIN_TX_DELAY = 5 * 1000UL;                 // sleep time between reads (seconds * 1000 milliseconds)
 uint32_t MIN_TX_DELAY_INFREQUENT = 15 * 60 * 1000UL; // sleep time between reads (min * seconds * 1000 milliseconds)
@@ -163,11 +164,16 @@ unsigned long lastInfrequentCheckTime = 0L;
 
 unsigned long lap = 0;
 
+
+unsigned long i2cFetchCount = 0;
 MyMessage msgWSpeed(CHILD_ID_WIND, V_WIND);
 MyMessage msgWGust(CHILD_ID_WIND, V_GUST);
 MyMessage msgWDirection(CHILD_ID_WIND, V_DIRECTION);
 MyMessage msgRain(CHILD_ID_RAIN, V_RAIN);
 MyMessage msgTemp(CHILD_ID_TEMP, V_TEMP);
+
+MyMessage msgRawVoltage(CHILD_ID_RAW_VOLTAGE, V_VOLTAGE);
+MyMessage msgBatteryVoltage(CHILD_ID_BATTERY_VOLTAGE, V_VOLTAGE);
 
 MyMessage msgResetCount(CHILD_ID_RESET_COUNT, V_KWH);
 MyMessage msgSendRssi(CHILD_ID_SEND_RSSI, V_LEVEL);
@@ -184,11 +190,7 @@ void infrequent_periodic_report_check();
 ////////////////////////////////////////////////////////////////////////////////////////
 void setup()
 {
-
-  uint8_t version = RFM95_readReg(0x42);
-Serial.print("RFM95 Version Reg: 0x");
-Serial.println(version, HEX);
-
+  wait(5000); 
 #ifdef FIRST_TIME
   eeprom_write_dword((uint32_t *)EE_RESET_COUNT_ADDRESS, (uint32_t)0);
 #endif
@@ -204,6 +206,7 @@ Serial.println(version, HEX);
   digitalWrite(LED_STATUS_PIN, LOW);
 
   sensor.begin();
+  Wire.begin(); // Initializes I2C as master (no address argument)
 
   // TIMER 1 for interrupt frequency 2000 Hz:
   cli();      // stop interrupts
@@ -503,6 +506,9 @@ void periodic_report_check()
   Serial.print("Rain:");
   Serial.print(rainTipCount);
   Serial.println("");
+  Serial.print("i2c Fetch:");
+  Serial.print(i2cFetchCount);
+  Serial.println("");
 
   Serial.print("Temp:");
   Serial.print(temp, 1);
@@ -515,11 +521,28 @@ void periodic_report_check()
 
 }
 
+float get_voltage(uint8_t pin)
+{
+  // Read the voltage on the specified pin
+  int raw = analogRead(pin);
+  float measuredV = raw * (1.1 / 1023.0); // Voltage at ADC pin
+  return measuredV * ((560.0 + 100.0) / 100.0); // Recalculate Vin
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // infrequent_periodic_report_check runs every MIN_TX_DELAY
 ////////////////////////////////////////////////////////////////////////////////////////
 void infrequent_periodic_report_check()
 {
+  // Just temporarily shift to Internalfor voltage measurement
+  // and then back to default
+  analogReference(INTERNAL);  // Use 1.1V internal reference
+  delay(5);  // let ref stabilize
+
+  float rawVoltage = get_voltage(RAW_VOLTAGE_PIN);
+  SEND(msgRawVoltage.set(rawVoltage, 1));
+  float batteryVoltage = get_voltage(BATTERY_VOLTAGE_PIN);
+  SEND(msgBatteryVoltage.set(batteryVoltage, 1));
 
   int16_t txRssi = RFM95_getSendingRSSI();
   SEND(msgSendRssi.set(txRssi));
@@ -538,8 +561,18 @@ void infrequent_periodic_report_check()
   Serial.print("TxPowerLevel:");
   Serial.print(txPowerLevel);
   Serial.println("");
+  Serial.print("RawVoltage:");
+  Serial.print(rawVoltage);
+  Serial.println("");
+  Serial.print("BatteryVoltage:");
+  Serial.print(batteryVoltage);
+  Serial.println("");
 
 #endif
+
+  analogReference(DEFAULT);  // Use the full 0-VCC range
+  delay(5);  // let ref stabilize
+
 }
 
 void readRainCounter() {
@@ -552,6 +585,9 @@ void readRainCounter() {
     count |= Wire.read();
 
     rainTipCount = count;
+
+    i2cFetchCount++;
+
   }
 }
 

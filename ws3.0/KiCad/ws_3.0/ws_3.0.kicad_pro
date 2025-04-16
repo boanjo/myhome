@@ -241,55 +241,35 @@
   "erc": {
     "erc_exclusions": [
       [
-        "four_way_junction|1130300|431800|dc3fe15a-efa8-49b5-a836-68dea30d148d|208a3239-90cb-4346-85ee-eb6a1b1b6bcc|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1130300|431800|dc3fe15a-efa8-49b5-a836-68dea30d148d|e562c31d-8844-41f4-a532-a05a92a3ce22|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1155700|1574800|3bba1d8d-c690-4556-9efc-528e40b950f2|9d95fd1c-c4ef-49b7-ba9b-9ca8c405e2f9|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1155700|1574800|4379cf0b-b590-45ce-98b6-fe8669b29d77|9d95fd1c-c4ef-49b7-ba9b-9ca8c405e2f9|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1181100|2438400|a7923416-79b9-4f26-8e8c-dd7d49d433a0|a83ad0f4-f855-4057-bc63-16e38e727e11|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
-        "four_way_junction|1181100|2438400|a83ad0f4-f855-4057-bc63-16e38e727e11|5f3b65f4-abc3-4285-86e0-9e4c3fca18e5|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
-        "four_way_junction|1460500|1447800|766a3053-7be2-4173-b056-bc6527f44df8|04e650a5-5437-4734-add2-7e50e6da7305|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
-        "four_way_junction|1473200|1524000|4b2f39d9-1c61-4992-99e4-0ab6b5a1a330|7f96c02a-e68b-4e19-8430-0b966106b526|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1473200|1524000|b024390c-313a-43f1-b6ae-ff63b29500b4|d0b3d2ae-f0c5-4967-afed-34e5b3458ac2|/5561cc39-0aad-449f-a804-35398a6096bd/bb4f23ca-4c99-4bbe-b550-e97a4c41fe8b||",
-        ""
-      ],
-      [
-        "four_way_junction|1676400|2438400|16345e2f-d357-4c61-b272-de2806dea2f3|a3ccea74-4606-4101-a174-8ec736208c10|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
-        "four_way_junction|1993900|2692400|c647c823-fe12-403c-9d08-4f6c4636dcfd|d721ba60-8f7b-4cc2-8d7e-cede6d8d0f61|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
-        "four_way_junction|558800|1295400|766a3053-7be2-4173-b056-bc6527f44df8|04e650a5-5437-4734-add2-7e50e6da7305|/5561cc39-0aad-449f-a804-35398a6096bd||",
-        ""
-      ],
-      [
         "lib_symbol_issues|1181100|2540000|5ea39b9e-a319-486a-a186-c13f896a671e|00000000-0000-0000-0000-000000000000|||",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|1168400|285898cd-d250-4545-94b7-c09a20730020|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|1219200|9a21bb12-60e1-4d56-bd42-b8b72131d2b3|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|1270000|6d5f6088-e164-4ea1-97fe-06a8b5155599|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|660400|84f67f76-6f1d-427a-9056-fbc3e7537fb6|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|685800|9925626b-eb2b-47ce-8e5d-9dc91feccbe3|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|914400|dbe5ca5b-9e8c-4f3a-b2f2-b9b3c54a7af0|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|1155700|965200|8ff1cc76-ec03-45c3-a05e-12508fb2dada|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
         ""
       ],
       [
@@ -373,6 +353,10 @@
         ""
       ],
       [
+        "pin_not_connected|711200|1168400|9a21bb12-60e1-4d56-bd42-b8b72131d2b3|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
         "pin_not_connected|711200|1219200|6d5f6088-e164-4ea1-97fe-06a8b5155599|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
         ""
       ],
@@ -390,6 +374,10 @@
       ],
       [
         "pin_not_connected|711200|914400|8ff1cc76-ec03-45c3-a05e-12508fb2dada|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
+        ""
+      ],
+      [
+        "pin_not_connected|850900|660400|478fd8ce-688e-41b1-956e-a297ae1be309|00000000-0000-0000-0000-000000000000|/5561cc39-0aad-449f-a804-35398a6096bd|/5561cc39-0aad-449f-a804-35398a6096bd|",
         ""
       ],
       [
@@ -611,7 +599,7 @@
       "extra_units": "error",
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
-      "four_way_junction": "error",
+      "four_way_junction": "ignore",
       "global_label_dangling": "warning",
       "hier_label_mismatch": "error",
       "label_dangling": "error",
@@ -753,6 +741,10 @@
       {
         "netclass": "POWER",
         "pattern": "/power/RAW"
+      },
+      {
+        "netclass": "POWER",
+        "pattern": "BACKUP_BATTERY"
       }
     ]
   },
@@ -761,10 +753,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "output/",
+      "plot": "../../../../../OneDrive/Documents/pcbways_2025-04-15/ws3.0/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "ws_3.0.step",
+      "step": "../../../../../OneDrive/Documents/pcbways_2025-04-15/ws3.0/ws_3.0.step",
       "svg": "",
       "vrml": ""
     },
@@ -928,7 +920,7 @@
       "workbook_filename": ""
     },
     "page_layout_descr_file": "",
-    "plot_directory": "documentation/",
+    "plot_directory": "../../../../../OneDrive/Documents/pcbways_2025-04-15/ws3.0/",
     "space_save_all_events": true,
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
